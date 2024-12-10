@@ -1,6 +1,4 @@
 from collections import deque, Counter
-from typing import List
-from copy import copy
 
 DAY = 1
 
