@@ -1,0 +1,5 @@
+.idea/
+inputs/
+# these are my input files
+*.txt
+*.pyc
