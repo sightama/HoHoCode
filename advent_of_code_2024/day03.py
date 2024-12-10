@@ -1,7 +1,4 @@
-import re
 from collections import deque
-from typing import List
-from copy import copy
 
 DAY = 3
 
