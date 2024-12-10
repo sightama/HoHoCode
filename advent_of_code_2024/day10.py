@@ -35,7 +35,7 @@ class AdventCode:
 
     def recurse_dfs(self, x: int, y: int, height: deque, visited: set):
         if not height:
-            return  # remove....shouldnt need this i think..
+            return
 
         neighbors = list()
         for dx, dy in self.deltas.values():  # track pos, number on, and all deltas
@@ -66,4 +66,31 @@ class AdventCode:
             print(f"Position {key}: Value {value}")
 
     def part2(self, inn: str):
-        pass
+        self.make_num_matrix(inn)
+        for y in range(len(self.matrix)):
+            for x in range(len(self.matrix[0])):
+                if self.matrix[y][x] == 9:
+                    self.recurse_dfs_2(x, y, deepcopy(deque([8, 7, 6, 5, 4, 3, 2, 1, 0])), deepcopy(set()))
+
+        self.order_dict()
+        return sum(self.hiking_trails.values())
+
+    def recurse_dfs_2(self, x: int, y: int, height: deque, visited: set):
+        if not height:
+            return
+        neighbors = list()
+        for dx, dy in self.deltas.values():
+            next_x = dx + x
+            next_y = dy + y
+            if next_y < 0 or next_x < 0 or next_y >= len(self.matrix) or next_x >= len(self.matrix[0]):
+                continue
+            neighbors.append((next_x, next_y))
+        queue = deque(neighbors)
+        next_step = height.popleft()
+        while queue:
+            cur_x, cur_y = queue.popleft()
+            if next_step == 0 and self.matrix[cur_y][cur_x] == next_step:  # and (cur_x, cur_y) not in visited:
+                self.hiking_trails[(cur_x, cur_y)] += 1
+                visited.add((cur_x, cur_y))
+            if next_step == self.matrix[cur_y][cur_x]:
+                self.recurse_dfs_2(cur_x, cur_y, deepcopy(height), visited)
