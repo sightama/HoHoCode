@@ -8,8 +8,7 @@ def read_input_file(dest):
 
 
 if __name__ == "__main__":
-    test_input = """15: 15 1 2
-190: 10 19
+    test_input = """190: 10 19
 3267: 81 40 27
 83: 17 5
 156: 15 6
@@ -20,5 +19,5 @@ if __name__ == "__main__":
 292: 11 6 16 20"""
     test_input = read_input_file(f"advent_of_code_2024/inputs/day{DAY}.txt")
     xmas = AdventCode()
-    result = xmas.part1(test_input)
+    result = xmas.part2(test_input)
     print(f"Complete! Result = {result}")
