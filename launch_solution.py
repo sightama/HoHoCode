@@ -38,5 +38,5 @@ if __name__ == "__main__":
 97,13,75,29,47"""  # """0 1 10 99 999"""
     test_input = read_input_file(f"advent_of_code_2024/inputs/day{DAY}.txt")
     xmas = AdventCode()
-    result = xmas.part1(test_input)
+    result = xmas.part2(test_input)
     print(f"Complete! Result = {result}")
