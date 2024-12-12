@@ -8,7 +8,7 @@ DAY = 7
 
 def generate_permutations(letters, edges):
     permutations = list(product(letters, repeat=edges))
-    pretty = deque()
+    pretty = []
     for p in permutations:
         pretty.append(''.join(p))
     return pretty
@@ -17,18 +17,18 @@ def generate_permutations(letters, edges):
 class AdventCode:
 
     def part1(self, inn: str):
-        operators = {}
+        operators = []
         rows = inn.split('\n')
         # organize data
         for row in rows:
             vals = row.split(':')
             test_value = int(vals[0])
             vals = [int(x) for x in vals[1].strip().split()]
-            operators[test_value] = vals
+            operators.append((test_value, vals))
 
         # check all permutations and if one = test_value partay add to total
         total = 0
-        for test_value, vals in operators.items():
+        for test_value, vals in operators:
             edges = len(vals) - 1
             permutations = generate_permutations(['m', 'a'], edges)
 
