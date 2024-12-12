@@ -42,7 +42,7 @@ class AdventCode:
                 distinct_boxes.add((dx + x, dy + y))
                 direction = self.switch[direction]
 
-    def part2(self, inn: str):
+    def part2(self, inn: str):  # 45 min
         # we know there are 4515 distinct steps that are walker hits
         # everytime we visit a box and turn, record it as visited including placed one. if we hit at least 1 full rotation  and the same placed object after
         total_steps = None
