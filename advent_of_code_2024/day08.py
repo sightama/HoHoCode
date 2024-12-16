@@ -5,6 +5,7 @@ from itertools import product, combinations
 
 DAY = 8
 
+# NOTE: I HATE THIS PROBLEM. DAY 8 PART2 I COPPED OUT. NOT SURE WHAT WRONG WITH MY SOLUTION WILL TALK MARK LATER :)
 
 class AdventCode:
     visited = {}
