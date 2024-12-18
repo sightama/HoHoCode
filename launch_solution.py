@@ -1,5 +1,5 @@
 from pathlib import Path
-from advent_of_code_2024.day13 import AdventCode, DAY
+from advent_of_code_2024.day18 import AdventCode, DAY
 
 
 def read_input_file(dest):
@@ -8,23 +8,32 @@ def read_input_file(dest):
 
 
 if __name__ == "__main__":
-    test_input = """Button A: X+94, Y+34
-Button B: X+22, Y+67
-Prize: X=8400, Y=5400
-
-Button A: X+26, Y+66
-Button B: X+67, Y+21
-Prize: X=12748, Y=12176
-
-Button A: X+17, Y+86
-Button B: X+84, Y+37
-Prize: X=7870, Y=6450
-
-Button A: X+69, Y+23
-Button B: X+27, Y+71
-Prize: X=18641, Y=10279"""
+    test_input = """5,4
+4,2
+4,5
+3,0
+2,1
+6,3
+2,4
+1,5
+0,6
+3,3
+2,6
+5,1
+1,2
+5,5
+2,5
+6,5
+1,4
+0,4
+6,4
+1,1
+6,1
+1,0
+0,5
+1,6
+2,0"""
     test_input = read_input_file(f"advent_of_code_2024/inputs/day{DAY}.txt")
     xmas = AdventCode()
     result = xmas.part2(test_input)
     print(f"Complete! Result = {result}")
-# try asgain - 1538336
