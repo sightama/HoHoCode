@@ -14,5 +14,5 @@ if __name__ == "__main__":
 *   +   *   +  """
     test_input = read_input_file(f"advent_of_code_2025/inputs/day{DAY}.txt")
     xmas = AdventCode()
-    result = xmas.part1(test_input)
+    result = xmas.part2(test_input)
     print(f"Complete! Result = {result}")
