@@ -57,22 +57,17 @@ class AdventCode:
             if char == 'S':
                 start = i
                 break
-        seen = set()  # this will hold all split xys.
-        splits = self.recurseAll(start, 1, '')
+        splits = self.recurseAll(start, 1)
         return splits
 
     @cache
-    def recurseAll(self, x, y, cur_path):
+    def recurseAll(self, x, y):  # , cur_path):
         path = 0  # dfs to the end - this now tracks all times we reach the end
-        if cur_path in self.seen:  # we've hit this path before, skip. optimization.
-            return 0 
         if (x < 0 or x >= len(self.grid[0])) or y >= len(self.grid):  # check edge cases first.
-            self.seen.add(cur_path)
             return 1 # end of one of our paths
         if self.grid[y][x] == '.' or self.grid[y][x] == '|':  # down
-            # grid[y][x] = '|'
-            path += self.recurseAll(x, y+1, cur_path + 'd')
+            path += self.recurseAll(x, y+1)
         if self.grid[y][x] == '^':  # right/left
-            path += self.recurseAll(x+1, y, cur_path + 'r')
-            path += self.recurseAll(x-1, y, cur_path + 'l')
+            path += self.recurseAll(x+1, y)
+            path += self.recurseAll(x-1, y)
         return path
