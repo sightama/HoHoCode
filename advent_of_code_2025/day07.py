@@ -1,4 +1,5 @@
 from collections import deque, Counter
+from functools import cache
 from copy import deepcopy
 
 DAY = 7
@@ -41,35 +42,37 @@ class AdventCode:
             splits += self.recurse(x-1, y, grid, seen)
         return splits
 
+    grid = []
+    seen = set()
     # took x
     def part2(self, inn: str):
         start = inn.split('\n')
-        grid = []
         for star in start:
             row = []
             for char in star:
                 row.append(char)
-            grid.append(row)
+            self.grid.append(row)
         start = -1 # find start
-        for i, char in enumerate(grid[0]):
+        for i, char in enumerate(self.grid[0]):
             if char == 'S':
                 start = i
                 break
         seen = set()  # this will hold all split xys.
-        splits = self.recurseAll(start, 1, grid, seen, '')
+        splits = self.recurseAll(start, 1, '')
         return splits
 
-    def recurseAll(self, x, y, grid, seen, cur_path):
+    @cache
+    def recurseAll(self, x, y, cur_path):
         path = 0  # dfs to the end - this now tracks all times we reach the end
-        if cur_path in seen:  # we've hit this path before, skip. optimization.
+        if cur_path in self.seen:  # we've hit this path before, skip. optimization.
             return 0 
-        if (x < 0 or x >= len(grid[0])) or y >= len(grid):  # check edge cases first.
-            seen.add(cur_path)
+        if (x < 0 or x >= len(self.grid[0])) or y >= len(self.grid):  # check edge cases first.
+            self.seen.add(cur_path)
             return 1 # end of one of our paths
-        if grid[y][x] == '.' or grid[y][x] == '|':  # down
-            grid[y][x] = '|'
-            path += self.recurseAll(x, y+1, grid, seen, cur_path + 'd')
-        if grid[y][x] == '^':  # right/left
-            path += self.recurseAll(x+1, y, grid, seen, cur_path + 'r')
-            path += self.recurseAll(x-1, y, grid, seen, cur_path + 'l')
+        if self.grid[y][x] == '.' or self.grid[y][x] == '|':  # down
+            # grid[y][x] = '|'
+            path += self.recurseAll(x, y+1, cur_path + 'd')
+        if self.grid[y][x] == '^':  # right/left
+            path += self.recurseAll(x+1, y, cur_path + 'r')
+            path += self.recurseAll(x-1, y, cur_path + 'l')
         return path
