@@ -39,42 +39,49 @@ class AdventCode:
             # try all cases where the actual indices that are true are the primary numbers inside tuples.
             # theory: If there are TWO on lights,
             # lets order such that buttons that have are numbers are tried first.
-            ordered_buttons = []
-            the_rest = []
-            for butt in butts:
-                if any(str(x) in butt for x in indices):
-                    ordered_buttons.append(butt)
-                else:
-                    the_rest.append(butt)
-            ordered_buttons.extend(the_rest)
-            lowest = None
-            queue = deque()
-            for buttons in ordered_buttons:
-                queue.append((buttons, 1, deepcopy(lights)))
-            # now try all variations, automatically shortest path if any single button causes perfect state stop.            
-            while queue:
-                cur_buttons, steps, prev_state = queue.popleft()
-                # try this button with all x1 to see all cases where just press 2 buttons, then three then 4 buttons etc.
-                current_state = self.change_state(prev_state, cur_buttons)
+            ordered_buttons = butts
+            # ordered_buttons = []
+            # the_rest = []
+            # for butt in butts:
+            #     if any(str(x) in butt for x in indices):
+            #         ordered_buttons.append(butt)
+            #     else:
+            #         the_rest.append(butt)
+            # ordered_buttons.extend(the_rest)
 
-                if current_state == goal_state:
-                    lowest = steps
-                    break  # by how we are doing this first time we hit it thats the lowest num of steps.
-                else:
-                    # append all next states to try; add all variations minus our number
-                    for butts in ordered_buttons:
-                        if butts == cur_buttons:
-                            continue  # skip
-                        else:
-                            queue.append((butts, steps + 1, copy(current_state)))  # now + 1 steps, attempt all permutation with this button.
-            
+            lowest = None
+            queue = deque([(0, deepcopy(lights), set())])
+            # now try all variations, automatically shortest path if any single button causes perfect state stop.
+            while queue:
+                steps, prev_state, seen = queue.popleft()
+                # append all next states to try; add all variations minus our number
+                for butts in ordered_buttons:
+                    if butts in seen:
+                        continue
+                    # try this button with all x1 to see all cases where just press 2 buttons, then three then 4 buttons etc.
+                    current_state = self.change_state(deepcopy(prev_state), butts)
+
+                    if current_state == goal_state:
+                        lowest = steps + 1
+                        break  # by how we are doing this first time we hit it thats the lowest num of steps.
+                    else:
+                        queue.append((steps + 1, deepcopy(current_state), seen.union(set([butts]))))  # now + 1 steps, attempt all permutation with this button.
+                if lowest is not None:
+                    break
+        
             all_final_vals.append(lowest)
+            print(f"Running sum is {sum(all_final_vals)}")
         return sum(all_final_vals)
+
+    @cache
+    def splitt(self, buttons):
+        buttons = buttons[1:-1]
+        buttons = buttons.split(',')
+        return buttons
 
 
     def change_state(self, state, buttons):
-        buttons = buttons[1:-1]
-        buttons = buttons.split(',')
+        buttons = self.splitt(buttons)
         for button in buttons:
             state[int(button)] = not state[int(button)]
         return state
